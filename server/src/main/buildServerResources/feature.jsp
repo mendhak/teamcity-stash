@@ -50,3 +50,13 @@
   </td>
 </tr>
 </l:settingsGroup>
+<l:settingsGroup title="Other">
+<tr>
+  <th>Ignore VCS Roots:<l:star/></th>
+  <td>
+    <props:textProperty name="${keys.VCSIgnoreKey}" className="longField"/>
+    <span class="error" id="error_${keys.VCSIgnoreKey}"></span>
+    <span class="smallNote">VCS root names to ignore (comma separated)</span>
+  </td>
+</tr>
+</l:settingsGroup>

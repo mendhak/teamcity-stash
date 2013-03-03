@@ -37,4 +37,9 @@ public class StashServerKeyNames
         return Constants.SECURE_PROPERTY_PREFIX + "stash_username";
     }
 
+    public String getVCSIgnoreKey()
+    {
+        return "stash_vcsignorecsv";
+    }
+
 }

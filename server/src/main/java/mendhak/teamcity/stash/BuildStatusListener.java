@@ -22,6 +22,7 @@ package mendhak.teamcity.stash;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.util.EventDispatcher;
 import mendhak.teamcity.stash.ui.StashBuildFeature;
+import mendhak.teamcity.stash.ui.StashServerKeyNames;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class BuildStatusListener
 {
     @NotNull
     private final ChangeStatusUpdater updater;
+
+    final StashServerKeyNames keyNames = new StashServerKeyNames();
 
     public BuildStatusListener(@NotNull final EventDispatcher<BuildServerListener> listener,
                                @NotNull final ChangeStatusUpdater updater)
@@ -67,6 +70,8 @@ public class BuildStatusListener
             {
                 continue;
             }
+
+            Logger.LogInfo("VCS to ignore:" + feature.getParameters().get(keyNames.getVCSIgnoreKey()));
 
             final ChangeStatusUpdater.Handler h = updater.getUpdateHandler(feature);
 
