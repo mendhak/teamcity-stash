@@ -100,6 +100,8 @@ public class StashClient
         String stashUrl = GetBuildStatusUrl(stashBaseUrl, revision);
         String basicAuthHeader = GetAuthorizationHeaderValue(stashUsername, stashPassword);
         String jsonBody = GetJsonBody(GetBuildState(state), key, displayName, url, description);
+
+        //TODO: Validate the stashUrl, jsonBody, basicAuthHeader before sending.
         PostBuildStatusToStash(stashUrl, jsonBody, basicAuthHeader);
 
     }

@@ -98,7 +98,7 @@ public class ChangeStatusUpdater
             throw new IllegalArgumentException("Unexpected feature type " + feature.getType());
         }
 
-        final StashServerKeyNames c = new StashServerKeyNames();
+        final StashServerKeyNames keyNames = new StashServerKeyNames();
 
 
         return new Handler()
@@ -129,8 +129,9 @@ public class ChangeStatusUpdater
                     public void run()
                     {
 
-                        StashClient client = new StashClient(feature.getParameters().get(c.getServerKey()),
-                                feature.getParameters().get(c.getUserNameKey()), feature.getParameters().get(c.getPasswordKey()));
+                        StashClient client = new StashClient(feature.getParameters().get(keyNames.getServerKey()),
+                                feature.getParameters().get(keyNames.getUserNameKey()),
+                                feature.getParameters().get(keyNames.getPasswordKey()));
 
                         client.SendBuildStatus(status, build.getBuildNumber(),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
