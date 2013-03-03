@@ -21,11 +21,13 @@ package mendhak.teamcity.stash;
 
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.util.EventDispatcher;
+import jetbrains.buildServer.util.StringUtil;
 import mendhak.teamcity.stash.ui.StashBuildFeature;
 import mendhak.teamcity.stash.ui.StashServerKeyNames;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -71,11 +73,11 @@ public class BuildStatusListener
                 continue;
             }
 
-            Logger.LogInfo("VCS to ignore:" + feature.getParameters().get(keyNames.getVCSIgnoreKey()));
+
 
             final ChangeStatusUpdater.Handler h = updater.getUpdateHandler(feature);
 
-            List<String> changes = getLatestChanges(build);
+            List<String> changes = getLatestChanges(build, feature);
 
             if (changes.isEmpty())
             {
@@ -96,16 +98,41 @@ public class BuildStatusListener
         }
     }
 
-    private List<String> getLatestChanges(final SRunningBuild build)
+    private List<String> getLatestChanges( final SRunningBuild build, final SBuildFeatureDescriptor feature)
     {
         final List<String> revisions = new ArrayList<String>();
 
         for(BuildRevision revision : build.getRevisions())
         {
+            if(ShouldIgnoreVCSRoot(revision, feature))
+            {
+                Logger.LogInfo("VCS Root " + revision.getRoot().getName() + " is being ignored.");
+                continue;
+            }
+
             revisions.add(revision.getRevision());
         }
 
         return revisions;
+    }
+
+    private boolean ShouldIgnoreVCSRoot(final BuildRevision revision, final SBuildFeatureDescriptor feature)
+    {
+        String ignoreRootsCSV = feature.getParameters().get(keyNames.getVCSIgnoreKey());
+
+        if(StringUtil.isEmptyOrSpaces(ignoreRootsCSV))
+        {
+            return false;
+        }
+
+        ignoreRootsCSV =  ignoreRootsCSV.replace(" ","").toLowerCase();
+
+        List<String> ignoreRoots = Arrays.asList(ignoreRootsCSV.split("\\s*,\\s*"));
+
+        String currentRoot = revision.getRoot().getName().replace(" ","").toLowerCase();
+
+        return (ignoreRoots.size() > 0 && ignoreRoots.contains(currentRoot));
+
     }
 
 
