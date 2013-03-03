@@ -31,76 +31,92 @@ import java.util.Map;
  * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
  * Date: 05.09.12 22:41
  */
-public class UpdateChangeStatusFeature extends BuildFeature {
-  public static final String FEATURE_TYPE = "teamcity.stash.status";
-  private final UpdateChangePaths myPaths;
+public class UpdateChangeStatusFeature extends BuildFeature
+{
+    public static final String FEATURE_TYPE = "teamcity.stash.status";
+    private final UpdateChangePaths myPaths;
 
-  public UpdateChangeStatusFeature(@NotNull final UpdateChangePaths paths) {
-    myPaths = paths;
-  }
+    public UpdateChangeStatusFeature(@NotNull final UpdateChangePaths paths)
+    {
+        myPaths = paths;
+    }
 
-  @NotNull
-  @Override
-  public String getType() {
-    return FEATURE_TYPE;
-  }
+    @NotNull
+    @Override
+    public String getType()
+    {
+        return FEATURE_TYPE;
+    }
 
-  @NotNull
-  @Override
-  public String getDisplayName() {
-    return "Report change status to Atlassian Stash";
-  }
+    @NotNull
+    @Override
+    public String getDisplayName()
+    {
+        return "Report change status to Atlassian Stash";
+    }
 
-  @Nullable
-  @Override
-  public String getEditParametersUrl() {
-    return myPaths.getControllerPath();
-  }
+    @Nullable
+    @Override
+    public String getEditParametersUrl()
+    {
+        return myPaths.getControllerPath();
+    }
 
-  @NotNull
-  @Override
-  public String describeParameters(@NotNull Map<String, String> params) {
-    return "Update change status to Atlassian Stash";
-  }
+    @NotNull
+    @Override
+    public String describeParameters(@NotNull Map<String, String> params)
+    {
+        return "Update change status to Atlassian Stash";
+    }
 
-  @Nullable
-  @Override
-  public PropertiesProcessor getParametersProcessor() {
-    final UpdateChangesConstants c = new UpdateChangesConstants();
-    return new PropertiesProcessor() {
-      private void checkNotEmpty(@NotNull final Map<String, String> properties,
-                                 @NotNull final String key,
-                                 @NotNull final String message,
-                                 @NotNull final Collection<InvalidProperty> res) {
-        if (jetbrains.buildServer.util.StringUtil.isEmptyOrSpaces(properties.get(key))) {
-          res.add(new InvalidProperty(key, message));
-        }
-      }
+    @Nullable
+    @Override
+    public PropertiesProcessor getParametersProcessor()
+    {
+        final UpdateChangesConstants c = new UpdateChangesConstants();
+        return new PropertiesProcessor()
+        {
+            private void checkNotEmpty(@NotNull final Map<String, String> properties,
+                                       @NotNull final String key,
+                                       @NotNull final String message,
+                                       @NotNull final Collection<InvalidProperty> res)
+            {
+                if (jetbrains.buildServer.util.StringUtil.isEmptyOrSpaces(properties.get(key)))
+                {
+                    res.add(new InvalidProperty(key, message));
+                }
+            }
 
-      @NotNull
-      public Collection<InvalidProperty> process(@Nullable final Map<String, String> p) {
-        final Collection<InvalidProperty> result = new ArrayList<InvalidProperty>();
-        if (p == null) return result;
+            @NotNull
+            public Collection<InvalidProperty> process(@Nullable final Map<String, String> p)
+            {
+                final Collection<InvalidProperty> result = new ArrayList<InvalidProperty>();
+                if (p == null)
+                {
+                    return result;
+                }
 
-        checkNotEmpty(p, c.getUserNameKey(), "Username must be specified", result);
-        checkNotEmpty(p, c.getPasswordKey(), "Password must be specified", result);
-        checkNotEmpty(p, c.getServerKey(), "Stash server base URL", result);
+                checkNotEmpty(p, c.getUserNameKey(), "Username must be specified", result);
+                checkNotEmpty(p, c.getPasswordKey(), "Password must be specified", result);
+                checkNotEmpty(p, c.getServerKey(), "Stash server base URL", result);
 
-        return result;
-      }
-    };
-  }
+                return result;
+            }
+        };
+    }
 
-  @Nullable
-  @Override
-  public Map<String, String> getDefaultParameters() {
-    final Map<String, String> map = new HashMap<String, String>();
-    map.put(new UpdateChangesConstants().getServerKey(), "http://stashserver:7990");
-    return map;
-  }
+    @Nullable
+    @Override
+    public Map<String, String> getDefaultParameters()
+    {
+        final Map<String, String> map = new HashMap<String, String>();
+        map.put(new UpdateChangesConstants().getServerKey(), "http://stashserver:7990");
+        return map;
+    }
 
-  @Override
-  public boolean isMultipleFeaturesPerBuildTypeAllowed() {
-    return true;
-  }
+    @Override
+    public boolean isMultipleFeaturesPerBuildTypeAllowed()
+    {
+        return true;
+    }
 }

@@ -36,121 +36,125 @@ import java.util.concurrent.ExecutorService;
  * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
  * Date: 06.09.12 3:29
  */
-public class ChangeStatusUpdater {
-  private static final Logger LOG = Logger.getInstance(ChangeStatusUpdater.class.getName());
+public class ChangeStatusUpdater
+{
+    private static final Logger LOG = Logger.getInstance(ChangeStatusUpdater.class.getName());
 
-  private final ExecutorService myExecutor;
-  @NotNull
+    private final ExecutorService myExecutor;
+    @NotNull
 
-  private final WebLinks myWeb;
-  private final BuildsManager buildsManager;
+    private final WebLinks myWeb;
+    private final BuildsManager buildsManager;
 
-  public ChangeStatusUpdater(@NotNull final ExecutorServices services,
-                             @NotNull final WebLinks web,
-                             BuildsManager manager) {
-    myWeb = web;
-    myExecutor = services.getLowPriorityExecutorService();
-    buildsManager = manager;
-  }
-
-
-  private String getBuildDisplayDescription(SRunningBuild build)
-  {
-    SimpleDateFormat formatter = new SimpleDateFormat( "MMMM dd, yyyy HH:mm" );
-    Date now = new Date();
-    String logEntry = formatter.format( now );
-
-    return String.format("[%s] %s", build.getFullName(), logEntry);
-
-  }
-
-  private String getBuildDisplayName(SRunningBuild build)
-  {
-
-    //Due to a bug, build.getStatusDescriptor() returns stale information.
-    //http://youtrack.jetbrains.com/issue/TW-22027
-
-    String buildStatus = build.getBuildStatus().getText();
-
-    if(     buildsManager != null &&
-            buildsManager.findBuildInstanceById(build.getBuildId()) != null
-            && buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor() != null)
+    public ChangeStatusUpdater(@NotNull final ExecutorServices services,
+                               @NotNull final WebLinks web,
+                               BuildsManager manager)
     {
-      buildStatus = buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor().getText();
-
+        myWeb = web;
+        myExecutor = services.getLowPriorityExecutorService();
+        buildsManager = manager;
     }
 
-    return String.format("Build #%s, %s",
-            String.valueOf(build.getBuildNumber()), buildStatus);
 
-  }
-
-  private String getRevision(SRunningBuild build)
-  {
-    if(build.getRevisions().size() > 0)
+    private String getBuildDisplayDescription(SRunningBuild build)
     {
-      return build.getRevisions().get(0).getRevision();
+        SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy HH:mm");
+        Date now = new Date();
+        String logEntry = formatter.format(now);
+
+        return String.format("[%s] %s", build.getFullName(), logEntry);
+
     }
 
-    return "";
-  }
+    private String getBuildDisplayName(SRunningBuild build)
+    {
 
-  public static interface Handler {
-    void scheduleChangeStarted(@NotNull final String hash, @NotNull final SRunningBuild build);
-    void scheduleChangeCompeted(@NotNull final String hash, @NotNull final SRunningBuild build);
-  }
+        //Due to a bug, build.getStatusDescriptor() returns stale information.
+        //http://youtrack.jetbrains.com/issue/TW-22027
 
-  @NotNull
-  public Handler getUpdateHandler(@NotNull final SBuildFeatureDescriptor feature) {
-    if (!feature.getType().equals(UpdateChangeStatusFeature.FEATURE_TYPE)) {
-      throw new IllegalArgumentException("Unexpected feature type " + feature.getType());
-    }
+        String buildStatus = build.getBuildStatus().getText();
 
-    final UpdateChangesConstants c = new UpdateChangesConstants();
+        if (buildsManager != null &&
+                buildsManager.findBuildInstanceById(build.getBuildId()) != null
+                && buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor() != null)
+        {
+            buildStatus = buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor().getText();
 
-
-
-
-    return new Handler() {
-
-      public void scheduleChangeStarted(@NotNull String hash, @NotNull SRunningBuild build) {
-        scheduleChangeUpdate(hash, build, "TeamCity Build " + build.getFullName() + " started", StashClient.BuildState.IN_PROGRESS);
-      }
-
-      public void scheduleChangeCompeted(@NotNull String hash, @NotNull SRunningBuild build) {
-        StashClient.BuildState status = build.getStatusDescriptor().isSuccessful() ?
-                StashClient.BuildState.SUCCESSFUL : StashClient.BuildState.FAILED;
-        String text = build.getStatusDescriptor().getText();
-        if (text != null) {
-          text = ": " + text;
-        } else {
-          text = "";
         }
-        scheduleChangeUpdate(hash, build, "TeamCity Build " + build.getFullName() + " finished" + text, status);
-      }
 
-      private void scheduleChangeUpdate(@NotNull final String hash,
-                                        @NotNull final SRunningBuild build,
-                                        @NotNull final String message,
-                                        @NotNull final StashClient.BuildState status) {
-        System.err.println("Scheduling Stash status update for hash: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
+        return String.format("Build #%s, %s",
+                String.valueOf(build.getBuildNumber()), buildStatus);
 
-        myExecutor.submit(ExceptionUtil.catchAll("set change status on Stash", new Runnable() {
-          public void run() {
+    }
+
+    private String getRevision(SRunningBuild build)
+    {
+        if (build.getRevisions().size() > 0)
+        {
+            return build.getRevisions().get(0).getRevision();
+        }
+
+        return "";
+    }
+
+    public static interface Handler
+    {
+        void scheduleChangeStarted(@NotNull final String hash, @NotNull final SRunningBuild build);
+
+        void scheduleChangeCompeted(@NotNull final String hash, @NotNull final SRunningBuild build);
+    }
+
+    @NotNull
+    public Handler getUpdateHandler(@NotNull final SBuildFeatureDescriptor feature)
+    {
+        if (!feature.getType().equals(UpdateChangeStatusFeature.FEATURE_TYPE))
+        {
+            throw new IllegalArgumentException("Unexpected feature type " + feature.getType());
+        }
+
+        final UpdateChangesConstants c = new UpdateChangesConstants();
 
 
-            StashClient client = new StashClient(feature.getParameters().get(c.getServerKey()),
-                    feature.getParameters().get(c.getUserNameKey()), feature.getParameters().get(c.getPasswordKey()));
+        return new Handler()
+        {
 
-            client.Notify(status, build.getBuildTypeId(),
-                    getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
-                    getBuildDisplayDescription(build), getRevision(build) );
+            public void scheduleChangeStarted(@NotNull String hash, @NotNull SRunningBuild build)
+            {
+                scheduleChangeUpdate(hash, build, StashClient.BuildState.IN_PROGRESS);
+            }
 
-              LOG.info("Updated Stash status for revision: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
+            public void scheduleChangeCompeted(@NotNull String hash, @NotNull SRunningBuild build)
+            {
+                StashClient.BuildState status = build.getStatusDescriptor().isSuccessful() ?
+                        StashClient.BuildState.SUCCESSFUL : StashClient.BuildState.FAILED;
 
-          }
-        }));
-      }
-    };
-  }
+                scheduleChangeUpdate(hash, build, status);
+            }
+
+            private void scheduleChangeUpdate(@NotNull final String hash,
+                                              @NotNull final SRunningBuild build,
+                                              @NotNull final StashClient.BuildState status)
+            {
+                System.err.println("Scheduling Stash status update for hash: " + hash + ", buildId: "
+                        + build.getBuildId() + ", status: " + status);
+
+                myExecutor.submit(ExceptionUtil.catchAll("set change status on Stash", new Runnable()
+                {
+                    public void run()
+                    {
+
+                        StashClient client = new StashClient(feature.getParameters().get(c.getServerKey()),
+                                feature.getParameters().get(c.getUserNameKey()), feature.getParameters().get(c.getPasswordKey()));
+
+                        client.Notify(status, build.getBuildTypeId(),
+                                getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
+                                getBuildDisplayDescription(build), getRevision(build));
+
+                        LOG.info("Updated Stash status for revision: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
+
+                    }
+                }));
+            }
+        };
+    }
 }

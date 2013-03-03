@@ -30,24 +30,25 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
  * Date: 05.09.12 22:44
  */
-public class UpdateChanesStatusController extends BaseController {
-  @NotNull
-  private final PluginDescriptor myDescriptor;
+public class UpdateChangesStatusController extends BaseController
+{
+    @NotNull
+    private final PluginDescriptor myDescriptor;
 
-  public UpdateChanesStatusController(@NotNull final PluginDescriptor descriptor,
-                                      @NotNull final UpdateChangePaths paths,
-                                      @NotNull final WebControllerManager web) {
-    myDescriptor = descriptor;
-    web.registerController(paths.getControllerPath(), this);
-  }
+    public UpdateChangesStatusController(@NotNull final PluginDescriptor descriptor,
+                                         @NotNull final UpdateChangePaths paths,
+                                         @NotNull final WebControllerManager web)
+    {
+        myDescriptor = descriptor;
+        web.registerController(paths.getControllerPath(), this);
+    }
 
-  @Nullable
-  @Override
-  protected ModelAndView doHandle(@NotNull final HttpServletRequest request,
-                                  @NotNull final HttpServletResponse response) throws Exception {
-    final ModelAndView mw = new ModelAndView(myDescriptor.getPluginResourcesPath("feature.jsp"));
-    //TODO: find build type settings and check for VCS roots to note the user
-    //TODO: may also introduce check-connection like API here too
-    return mw;
-  }
+    @Nullable
+    @Override
+    protected ModelAndView doHandle(@NotNull final HttpServletRequest request,
+                                    @NotNull final HttpServletResponse response) throws Exception
+    {
+        return  new ModelAndView(myDescriptor.getPluginResourcesPath("feature.jsp"));
+
+    }
 }

@@ -4,10 +4,12 @@
   <info>
     <name>TeamCity-Stash</name>
     <display-name>Atlassian Stash integration</display-name>
-    <version>@Plugin_Version@</version> <!-- will be replaced from script -->
+    <version>@Plugin_Version@</version>
+    <!-- will be replaced from script -->
     <vendor>
-      <name>@Plugin_Vendor@</name>  <!-- will be replaced from script -->
-      <url>@Plugin_Vendor_Url@</url> <!-- will be replaced from script -->
+      <name>Mendhak</name>
+
+      <url>http://mendhak.com</url>
     </vendor>
   </info>
   <deployment use-separate-classloader="true"/>

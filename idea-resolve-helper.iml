@@ -30,8 +30,6 @@
     <exclude-output />
     <content url="file://$TeamCityDistribution$/webapps/ROOT">
       <sourceFolder url="file://$TeamCityDistribution$/webapps/ROOT" isTestSource="false" />
-      <excludeFolder url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/plugins" />
-      <excludeFolder url="file://$TeamCityDistribution$/webapps/ROOT/plugins" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
