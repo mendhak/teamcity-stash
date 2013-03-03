@@ -1,18 +1,20 @@
 /*
- * Copyright 2000-2012 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+*    This file is part of TeamCity Stash.
+*
+*    TeamCity Stash is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 3 of the License, or
+*    (at your option) any later version.
+*
+*    TeamCity Stash is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with TeamCity Stash.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 
 package mendhak.teamcity.stash.ui;
 
@@ -20,7 +22,6 @@ import jetbrains.buildServer.serverSide.BuildFeature;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
-import mendhak.teamcity.stash.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,16 +30,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
- * Date: 05.09.12 22:41
- */
-public class UpdateChangeStatusFeature extends BuildFeature
+
+public class StashBuildFeature extends BuildFeature
 {
     public static final String FEATURE_TYPE = "teamcity.stash.status";
     private final PluginDescriptor descriptor;
 
-    public UpdateChangeStatusFeature(@NotNull final PluginDescriptor descriptor)
+    public StashBuildFeature(@NotNull final PluginDescriptor descriptor)
     {
         this.descriptor = descriptor;
     }
@@ -54,7 +52,7 @@ public class UpdateChangeStatusFeature extends BuildFeature
     @Override
     public String getDisplayName()
     {
-        return "Report change status to Atlassian Stash";
+        return "Report build status to Atlassian Stash";
     }
 
     @Nullable
@@ -68,7 +66,7 @@ public class UpdateChangeStatusFeature extends BuildFeature
     @Override
     public String describeParameters(@NotNull Map<String, String> params)
     {
-        return "Sending build status updates to " + params.get(new UpdateChangesConstants().getServerKey());
+        return "Build statuses will be sent to " + params.get(new StashServerKeyNames().getServerKey());
 
     }
 
@@ -76,13 +74,13 @@ public class UpdateChangeStatusFeature extends BuildFeature
     @Override
     public PropertiesProcessor getParametersProcessor()
     {
-        final UpdateChangesConstants c = new UpdateChangesConstants();
+        final StashServerKeyNames keyNames = new StashServerKeyNames();
         return new PropertiesProcessor()
         {
-            private void checkNotEmpty(@NotNull final Map<String, String> properties,
-                                       @NotNull final String key,
-                                       @NotNull final String message,
-                                       @NotNull final Collection<InvalidProperty> res)
+            private void validate(@NotNull final Map<String, String> properties,
+                                  @NotNull final String key,
+                                  @NotNull final String message,
+                                  @NotNull final Collection<InvalidProperty> res)
             {
                 if (jetbrains.buildServer.util.StringUtil.isEmptyOrSpaces(properties.get(key)))
                 {
@@ -91,17 +89,17 @@ public class UpdateChangeStatusFeature extends BuildFeature
             }
 
             @NotNull
-            public Collection<InvalidProperty> process(@Nullable final Map<String, String> p)
+            public Collection<InvalidProperty> process(@Nullable final Map<String, String> propertiesMap)
             {
                 final Collection<InvalidProperty> result = new ArrayList<InvalidProperty>();
-                if (p == null)
+                if (propertiesMap == null)
                 {
                     return result;
                 }
 
-                checkNotEmpty(p, c.getUserNameKey(), "Username must be specified", result);
-                checkNotEmpty(p, c.getPasswordKey(), "Password must be specified", result);
-                checkNotEmpty(p, c.getServerKey(), "Stash server base URL", result);
+                validate(propertiesMap, keyNames.getUserNameKey(), "Username must be specified", result);
+                validate(propertiesMap, keyNames.getPasswordKey(), "Password must be specified", result);
+                validate(propertiesMap, keyNames.getServerKey(), "Stash server base URL", result);
 
                 return result;
             }
@@ -113,7 +111,7 @@ public class UpdateChangeStatusFeature extends BuildFeature
     public Map<String, String> getDefaultParameters()
     {
         final Map<String, String> map = new HashMap<String, String>();
-        map.put(new UpdateChangesConstants().getServerKey(), "http://stashserver:7990");
+        map.put(new StashServerKeyNames().getServerKey(), "http://127.0.0.1:7990");
         return map;
     }
 

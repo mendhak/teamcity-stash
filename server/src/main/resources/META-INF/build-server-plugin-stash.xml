@@ -7,10 +7,10 @@
         >
 
 
-  <bean class="mendhak.teamcity.stash.ui.UpdateChangeStatusFeature"/>
-  <bean class="mendhak.teamcity.stash.ui.UpdateChangesStatusController"/>
+  <bean class="mendhak.teamcity.stash.ui.StashBuildFeature"/>
+  <bean class="mendhak.teamcity.stash.ui.SettingsPageController"/>
 
-  <bean class="mendhak.teamcity.stash.ChangeStatusListener"/>
+  <bean class="mendhak.teamcity.stash.BuildStatusListener"/>
   <bean class="mendhak.teamcity.stash.ChangeStatusUpdater"/>
 
   <bean class="mendhak.teamcity.stash.api.StashClient"/>
