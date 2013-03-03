@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package mendhak.teamcity.github.ui;
+package mendhak.teamcity.stash.ui;
 
 import jetbrains.buildServer.serverSide.BuildFeature;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
-import mendhak.teamcity.github.api.GitHubApiFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,9 +84,7 @@ public class UpdateChangeStatusFeature extends BuildFeature {
 
         checkNotEmpty(p, c.getUserNameKey(), "Username must be specified", result);
         checkNotEmpty(p, c.getPasswordKey(), "Password must be specified", result);
-//        checkNotEmpty(p, c.getRepositoryNameKey(), "Repository name must be specified", result);
-//        checkNotEmpty(p, c.getRepositoryOwnerKey(), "Repository owner must be specified", result);
-        checkNotEmpty(p, c.getServerKey(), "GitHub server api URL", result);
+        checkNotEmpty(p, c.getServerKey(), "Stash server base URL", result);
 
         return result;
       }
@@ -98,7 +95,7 @@ public class UpdateChangeStatusFeature extends BuildFeature {
   @Override
   public Map<String, String> getDefaultParameters() {
     final Map<String, String> map = new HashMap<String, String>();
-    map.put(new UpdateChangesConstants().getServerKey(), GitHubApiFactory.DEFAULT_URL);
+    map.put(new UpdateChangesConstants().getServerKey(), "http://stashserver:7990");
     return map;
   }
 

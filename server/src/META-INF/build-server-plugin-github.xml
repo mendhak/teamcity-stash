@@ -6,13 +6,13 @@
         default-autowire="constructor"
         >
 
-  <bean class="mendhak.teamcity.github.ui.UpdateChangePathsImpl"/>
-  <bean class="mendhak.teamcity.github.ui.UpdateChangeStatusFeature"/>
-  <bean class="mendhak.teamcity.github.ui.UpdateChanesStatusController"/>
+  <bean class="mendhak.teamcity.stash.ui.UpdateChangePathsImpl"/>
+  <bean class="mendhak.teamcity.stash.ui.UpdateChangeStatusFeature"/>
+  <bean class="mendhak.teamcity.stash.ui.UpdateChanesStatusController"/>
 
-  <bean class="mendhak.teamcity.github.ChangeStatusListener"/>
-  <bean class="mendhak.teamcity.github.ChangeStatusUpdater"/>
+  <bean class="mendhak.teamcity.stash.ChangeStatusListener"/>
+  <bean class="mendhak.teamcity.stash.ChangeStatusUpdater"/>
 
-  <bean class="mendhak.teamcity.github.api.impl.GitHubApiFactoryImpl"/>
-  <bean class="mendhak.teamcity.github.api.impl.HttpClientWrapperImpl" destroy-method="dispose"/>
+  <bean class="mendhak.teamcity.stash.api.StashClient"/>
+
 </beans>

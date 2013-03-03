@@ -16,7 +16,7 @@
   ~ limitations under the License.
   --%>
 
-<jsp:useBean id="keys" class="mendhak.teamcity.github.ui.UpdateChangesConstants"/>
+<jsp:useBean id="keys" class="mendhak.teamcity.stash.ui.UpdateChangesConstants"/>
 
 <tr>
   <td colspan="2">Specify Stash repository name and credentials to push status updates to</td>

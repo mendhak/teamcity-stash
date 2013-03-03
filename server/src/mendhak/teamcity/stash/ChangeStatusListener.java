@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package mendhak.teamcity.github;
+package mendhak.teamcity.stash;
 
 import com.intellij.openapi.diagnostic.Logger;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.util.EventDispatcher;
 import jetbrains.buildServer.vcs.VcsRootInstance;
-import mendhak.teamcity.github.ui.UpdateChangeStatusFeature;
+import mendhak.teamcity.stash.ui.UpdateChangeStatusFeature;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class ChangeStatusListener {
 
       Map<VcsRootInstance, String> changes = getLatestChangesHash(build);
       if (changes.isEmpty()) {
-        System.err.println("No revisions were found to update GitHub status. Please check you have Git VCS roots in the build configuration");
+        System.err.println("No revisions were found to update Stash status. Please check you have Git VCS roots in the build configuration");
       }
 
       for (Map.Entry<VcsRootInstance, String> e : changes.entrySet()) {
@@ -82,7 +82,7 @@ public class ChangeStatusListener {
     for (BuildRevision rev : build.getRevisions()) {
       if (!"jetbrains.git".equals(rev.getRoot().getVcsName())) continue;
 
-      System.err.println("Found revision to report status to GitHub: " + rev.getRevision() + " from root " + rev.getRoot().getName());
+      System.err.println("Found revision to report status to Stash: " + rev.getRevision() + " from root " + rev.getRoot().getName());
       result.put(rev.getRoot(), rev.getRevision());
     }
     return result;

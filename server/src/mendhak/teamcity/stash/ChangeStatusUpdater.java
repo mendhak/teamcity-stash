@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package mendhak.teamcity.github;
+package mendhak.teamcity.stash;
 
 import com.intellij.openapi.diagnostic.Logger;
+import jetbrains.buildServer.serverSide.BuildsManager;
 import jetbrains.buildServer.serverSide.SBuildFeatureDescriptor;
 import jetbrains.buildServer.serverSide.SRunningBuild;
 import jetbrains.buildServer.serverSide.WebLinks;
 import jetbrains.buildServer.serverSide.executors.ExecutorServices;
 import jetbrains.buildServer.util.ExceptionUtil;
-import mendhak.teamcity.github.api.GitHubApi;
-import mendhak.teamcity.github.api.GitHubApiFactory;
-import mendhak.teamcity.github.api.GitHubChangeState;
-import mendhak.teamcity.github.ui.UpdateChangeStatusFeature;
-import mendhak.teamcity.github.ui.UpdateChangesConstants;
+import mendhak.teamcity.stash.api.StashClient;
+import mendhak.teamcity.stash.ui.UpdateChangeStatusFeature;
+import mendhak.teamcity.stash.ui.UpdateChangesConstants;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -41,15 +41,58 @@ public class ChangeStatusUpdater {
 
   private final ExecutorService myExecutor;
   @NotNull
-  private final GitHubApiFactory myFactory;
+
   private final WebLinks myWeb;
+  private final BuildsManager buildsManager;
 
   public ChangeStatusUpdater(@NotNull final ExecutorServices services,
-                             @NotNull final GitHubApiFactory factory,
-                             @NotNull final WebLinks web) {
-    myFactory = factory;
+                             @NotNull final WebLinks web,
+                             BuildsManager manager) {
     myWeb = web;
     myExecutor = services.getLowPriorityExecutorService();
+    buildsManager = manager;
+  }
+
+
+  private String getBuildDisplayDescription(SRunningBuild build)
+  {
+    SimpleDateFormat formatter = new SimpleDateFormat( "MMMM dd, yyyy HH:mm" );
+    Date now = new Date();
+    String logEntry = formatter.format( now );
+
+    return String.format("[%s] %s", build.getFullName(), logEntry);
+
+  }
+
+  private String getBuildDisplayName(SRunningBuild build)
+  {
+
+    //Due to a bug, build.getStatusDescriptor() returns stale information.
+    //http://youtrack.jetbrains.com/issue/TW-22027
+
+    String buildStatus = build.getBuildStatus().getText();
+
+    if(     buildsManager != null &&
+            buildsManager.findBuildInstanceById(build.getBuildId()) != null
+            && buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor() != null)
+    {
+      buildStatus = buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor().getText();
+
+    }
+
+    return String.format("Build #%s, %s",
+            String.valueOf(build.getBuildNumber()), buildStatus);
+
+  }
+
+  private String getRevision(SRunningBuild build)
+  {
+    if(build.getRevisions().size() > 0)
+    {
+      return build.getRevisions().get(0).getRevision();
+    }
+
+    return "";
   }
 
   public static interface Handler {
@@ -64,21 +107,19 @@ public class ChangeStatusUpdater {
     }
 
     final UpdateChangesConstants c = new UpdateChangesConstants();
-    final GitHubApi api = myFactory.openGitHub(
-            feature.getParameters().get(c.getServerKey()),
-            feature.getParameters().get(c.getUserNameKey()),
-            feature.getParameters().get(c.getPasswordKey()));
-//    final String repositoryOwner = feature.getParameters().get(c.getRepositoryOwnerKey());
-//    final String repositoryName = feature.getParameters().get(c.getRepositoryNameKey());
+
+
+
 
     return new Handler() {
 
       public void scheduleChangeStarted(@NotNull String hash, @NotNull SRunningBuild build) {
-        scheduleChangeUpdate(hash, build, "TeamCity Build " + build.getFullName() + " started", GitHubChangeState.Pending);
+        scheduleChangeUpdate(hash, build, "TeamCity Build " + build.getFullName() + " started", StashClient.BuildState.IN_PROGRESS);
       }
 
       public void scheduleChangeCompeted(@NotNull String hash, @NotNull SRunningBuild build) {
-        GitHubChangeState status = build.getStatusDescriptor().isSuccessful() ? GitHubChangeState.Success : GitHubChangeState.Error;
+        StashClient.BuildState status = build.getStatusDescriptor().isSuccessful() ?
+                StashClient.BuildState.SUCCESSFUL : StashClient.BuildState.FAILED;
         String text = build.getStatusDescriptor().getText();
         if (text != null) {
           text = ": " + text;
@@ -91,24 +132,22 @@ public class ChangeStatusUpdater {
       private void scheduleChangeUpdate(@NotNull final String hash,
                                         @NotNull final SRunningBuild build,
                                         @NotNull final String message,
-                                        @NotNull final GitHubChangeState status) {
+                                        @NotNull final StashClient.BuildState status) {
         System.err.println("Scheduling Stash status update for hash: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
 
-        myExecutor.submit(ExceptionUtil.catchAll("set change status on github", new Runnable() {
+        myExecutor.submit(ExceptionUtil.catchAll("set change status on Stash", new Runnable() {
           public void run() {
-            try {
-              api.setChangeStatus(
-                      "",
-                      "",
-                      hash,
-                      status,
-                      myWeb.getViewResultsUrl(build),
-                      message
-              );
-              LOG.info("Updated GitHub status for hash: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
-            } catch (IOException e) {
-              LOG.warn("Failed to update GitHub status for hash: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status + ". " + e.getMessage(), e);
-            }
+
+
+            StashClient client = new StashClient(feature.getParameters().get(c.getServerKey()),
+                    feature.getParameters().get(c.getUserNameKey()), feature.getParameters().get(c.getPasswordKey()));
+
+            client.Notify(status, build.getBuildTypeId(),
+                    getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
+                    getBuildDisplayDescription(build), getRevision(build) );
+
+              LOG.info("Updated Stash status for revision: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
+
           }
         }));
       }

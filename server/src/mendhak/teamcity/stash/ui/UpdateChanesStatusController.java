@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package mendhak.teamcity.github.ui;
+package mendhak.teamcity.stash.ui;
 
 import jetbrains.buildServer.controllers.BaseController;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
