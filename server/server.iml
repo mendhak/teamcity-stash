@@ -12,23 +12,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="idea annotations.jar" level="project" />
-    <orderEntry type="library" name="Common-Api" level="project" />
-    <orderEntry type="library" name="Server-Api" level="project" />
-    <orderEntry type="library" name="Idea-OpenApi" level="project" />
-    <orderEntry type="library" name="Servlet Api" level="project" />
-    <orderEntry type="library" name="spring" level="project" />
-    <orderEntry type="library" name="commons-http" level="project" />
-    <orderEntry type="library" name="commons-codec-1.3" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
 
