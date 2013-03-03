@@ -19,7 +19,7 @@
     */
   --%>
 
-<jsp:useBean id="keys" class="mendhak.teamcity.stash.ui.UpdateChangesConstants"/>
+<jsp:useBean id="keys" class="mendhak.teamcity.stash.ui.StashServerKeyNames"/>
 
 <tr>
   <td colspan="2">Specify Stash repository name and credentials to push status updates to</td>
