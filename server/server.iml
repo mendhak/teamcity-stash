@@ -1,34 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset1" name="Server" removed="false">
-          <file>file://$MODULE_DIR$/fake-teamcity-server-plugin-context.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/build-server-declarative-extensibility.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/build-server-plugin-agents-statistics.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerCompatMode.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerPermissions.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerPluginsSupport.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerSpring.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/shared-spring-sub-container.xml</file>
-          <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/plugin-model-shared-spring.xml</file>
-          <file>file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerSpringWeb.xml</file>
-          <file>file://$MODULE_DIR$/src/META-INF/build-server-plugin-github.xml</file>
-          <file>jar://$TeamCityDistribution$/buildAgent/lib/common-impl.jar!/META-INF/per-plugin-shared-spring.xml</file>
-          <file>jar://$TeamCityDistribution$/buildAgent/lib/common-impl.jar!/META-INF/plugin-model-shared-spring.xml</file>
-          <file>jar://$TeamCityDistribution$/buildAgent/lib/common-impl.jar!/META-INF/shared-spring-sub-container.xml</file>
-        </fileset>
-      </configuration>
-    </facet>
-    <facet type="web" name="server">
-      <configuration>
-        <webroots>
-          <root url="file://$MODULE_DIR$/resources" relative="/plugins/SPECIAL_NAME" />
-        </webroots>
-      </configuration>
-    </facet>
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
