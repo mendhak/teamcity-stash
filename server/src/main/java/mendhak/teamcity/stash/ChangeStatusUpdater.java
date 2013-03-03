@@ -83,16 +83,6 @@ public class ChangeStatusUpdater
 
     }
 
-    private String getRevision(SRunningBuild build)
-    {
-        if (build.getRevisions().size() > 0)
-        {
-            return build.getRevisions().get(0).getRevision();
-        }
-
-        return "";
-    }
-
     public static interface Handler
     {
         void scheduleChangeStarted(@NotNull final String hash, @NotNull final SRunningBuild build);
@@ -144,7 +134,7 @@ public class ChangeStatusUpdater
 
                         client.SendBuildStatus(status, build.getBuildNumber(),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
-                                getBuildDisplayDescription(build), getRevision(build));
+                                getBuildDisplayDescription(build), hash);
 
                         Logger.LogInfo("Updated Stash status for revision: " + hash + ", buildId: " + build.getBuildId() + ", status: " + status);
 
