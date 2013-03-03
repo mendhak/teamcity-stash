@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="teamcity-stash" default="copy-zip-to-source">
+  
+  
+  <property file="build.properties"/>
+  <property name="artifact.output.plugin-zip" value="${basedir}/out/artifacts/plugin_zip"/>
+
+  <target name="copy-zip-to-source" description="Copy ZIP to source">
+
+      <echo message="${basedir}"/>
+      <echo message="${artifact.output.plugin-zip}"/>
+
+      <copy todir="${basedir}" overwrite="true">
+          <fileset dir="${artifact.output.plugin-zip}">
+              <patternset includes="*.zip" />
+          </fileset>
+      </copy>
+  </target>
+
+</project>

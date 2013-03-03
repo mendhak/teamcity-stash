@@ -1,6 +1,12 @@
 <component name="ArtifactManager">
   <artifact build-on-make="true" name="plugin-zip">
     <output-path>$PROJECT_DIR$/out/artifacts/plugin_zip</output-path>
+    <properties id="ant-postprocessing">
+      <options enabled="true">
+        <file>file://$PROJECT_DIR$/build.xml</file>
+        <target>copy-zip-to-source</target>
+      </options>
+    </properties>
     <root id="root">
       <element id="archive" name="teamcity.stash.zip">
         <element id="artifact" artifact-name="plugin" />
