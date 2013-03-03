@@ -142,7 +142,7 @@ public class ChangeStatusUpdater
                         StashClient client = new StashClient(feature.getParameters().get(c.getServerKey()),
                                 feature.getParameters().get(c.getUserNameKey()), feature.getParameters().get(c.getPasswordKey()));
 
-                        client.Notify(status, build.getBuildTypeId(),
+                        client.SendBuildStatus(status, build.getBuildNumber(),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
                                 getBuildDisplayDescription(build), getRevision(build));
 

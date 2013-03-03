@@ -92,8 +92,8 @@ public class StashClient
         return buildState.name().replace("_", "");
     }
 
-    public void Notify(BuildState state, String key, String displayName,
-                       String url, String description, String revision)
+    public void SendBuildStatus(BuildState state, String key, String displayName,
+                                String url, String description, String revision)
     {
 
 
