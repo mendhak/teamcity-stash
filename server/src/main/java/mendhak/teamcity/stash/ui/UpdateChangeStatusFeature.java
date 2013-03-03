@@ -19,6 +19,7 @@ package mendhak.teamcity.stash.ui;
 import jetbrains.buildServer.serverSide.BuildFeature;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
+import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import mendhak.teamcity.stash.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,11 +36,11 @@ import java.util.Map;
 public class UpdateChangeStatusFeature extends BuildFeature
 {
     public static final String FEATURE_TYPE = "teamcity.stash.status";
-    private final UpdateChangePaths myPaths;
+    private final PluginDescriptor descriptor;
 
-    public UpdateChangeStatusFeature(@NotNull final UpdateChangePaths paths)
+    public UpdateChangeStatusFeature(@NotNull final PluginDescriptor descriptor)
     {
-        myPaths = paths;
+        this.descriptor = descriptor;
     }
 
     @NotNull
@@ -60,7 +61,7 @@ public class UpdateChangeStatusFeature extends BuildFeature
     @Override
     public String getEditParametersUrl()
     {
-        return myPaths.getControllerPath();
+        return descriptor.getPluginResourcesPath("feature.html");
     }
 
     @NotNull

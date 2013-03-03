@@ -33,14 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdateChangesStatusController extends BaseController
 {
     @NotNull
-    private final PluginDescriptor myDescriptor;
+    private final PluginDescriptor descriptor;
 
     public UpdateChangesStatusController(@NotNull final PluginDescriptor descriptor,
-                                         @NotNull final UpdateChangePaths paths,
                                          @NotNull final WebControllerManager web)
     {
-        myDescriptor = descriptor;
-        web.registerController(paths.getControllerPath(), this);
+        this.descriptor = descriptor;
+        web.registerController(descriptor.getPluginResourcesPath("feature.html"), this);
     }
 
     @Nullable
@@ -48,7 +47,7 @@ public class UpdateChangesStatusController extends BaseController
     protected ModelAndView doHandle(@NotNull final HttpServletRequest request,
                                     @NotNull final HttpServletResponse response) throws Exception
     {
-        return  new ModelAndView(myDescriptor.getPluginResourcesPath("feature.jsp"));
+        return  new ModelAndView(descriptor.getPluginResourcesPath("feature.jsp"));
 
     }
 }

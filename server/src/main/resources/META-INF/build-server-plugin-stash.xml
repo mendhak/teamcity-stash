@@ -6,7 +6,7 @@
         default-autowire="constructor"
         >
 
-  <bean class="mendhak.teamcity.stash.ui.UpdateChangePathsImpl"/>
+
   <bean class="mendhak.teamcity.stash.ui.UpdateChangeStatusFeature"/>
   <bean class="mendhak.teamcity.stash.ui.UpdateChangesStatusController"/>
 
