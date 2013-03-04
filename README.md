@@ -11,7 +11,7 @@ This build feature sends build status updates from TeamCity to Stash.  You can t
 Install
 ==========
 
-Download the .zip file and place it in the `<TeamCity data directory>/plugins` folder, then restart TeamCity.
+Download the [.zip file](https://github.com/mendhak/teamcity-stash/blob/master/teamcity.stash.zip?raw=true) and place it in the `<TeamCity data directory>/plugins` folder, then restart TeamCity.
 
 
 Set-up
@@ -24,6 +24,7 @@ Under your build steps, click on `Add Build Feature`. It will appear in the drop
 
 Simply enter your Stash server details and credentials to connect with. The plugin will now send build status updates to your Stash server.
 
+![Configuration](http://farm9.staticflickr.com/8103/8528453179_53d61d97b2_o.png)
 
 
 How it works
