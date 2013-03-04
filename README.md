@@ -1,3 +1,5 @@
+![Logo](http://farm9.staticflickr.com/8105/8529837904_79cafece82_c.jpg)
+
 TeamCity Stash Integration
 ===============
 If you use TeamCity and Stash, then this plugin is for you.
