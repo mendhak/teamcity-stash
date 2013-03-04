@@ -4,7 +4,7 @@ If you use TeamCity and Stash, then this plugin is for you.
 
 This build feature sends build status updates from TeamCity to Stash.  You can then see build statuses against commits.
 
- ![Stash screenshot](http://farm9.staticflickr.com/8507/8529565648_cd74cc3b61_o.png)
+ ![Stash screenshot](http://farm9.staticflickr.com/8096/8529642406_29e3e9a899_o.png)
 
 
 
@@ -19,12 +19,12 @@ Set-up
 
 Under your build steps, click on `Add Build Feature`. It will appear in the dropdown list.
 
-![Build Feature](http://farm9.staticflickr.com/8097/8529565338_3da443c808_o.png)
+![Build Feature](http://farm9.staticflickr.com/8088/8529641968_ba34b8ebac_o.png)
 
 
 Simply enter your Stash server details and credentials to connect with. The plugin will now send build status updates to your Stash server.
 
-![Configuration](http://farm9.staticflickr.com/8103/8528453179_53d61d97b2_o.png)
+![Configuration](http://farm9.staticflickr.com/8365/8528530651_801fc3214d_o.png)
 
 
 How it works
