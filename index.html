@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>TeamCity Stash Integration by mendhak</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">TeamCity Stash Integration</h1>
+        <p class="header">Update Stash from TeamCity with build statuses</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mendhak/teamcity-stash/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mendhak/teamcity-stash/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mendhak/teamcity-stash">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mendhak">mendhak</a></p>
+
+
+      </header>
+      <section>
+        <p><img src="http://farm9.staticflickr.com/8105/8529837904_79cafece82_c.jpg" alt="Logo"></p>
+
+<p>If you use TeamCity and Stash, then this plugin is for you.</p>
+
+<p>This build feature sends build status updates from TeamCity to Stash.  You can then see build statuses against commits.</p>
+
+<p><img src="http://farm9.staticflickr.com/8096/8529642406_29e3e9a899_o.png" alt="Stash screenshot"></p>
+
+<h1>Install</h1>
+
+<p>Download the <a href="https://github.com/mendhak/teamcity-stash/blob/master/teamcity.stash.zip?raw=true">.zip file</a> and place it in the <code>&lt;TeamCity data directory&gt;/plugins</code> folder, then restart TeamCity.</p>
+
+<h1>Set-up</h1>
+
+<p>Under your build steps, click on <code>Add Build Feature</code>. It will appear in the dropdown list.</p>
+
+<p><img src="http://farm9.staticflickr.com/8088/8529641968_ba34b8ebac_o.png" alt="Build Feature"></p>
+
+<p>Simply enter your Stash server details and credentials to connect with. The plugin will now send build status updates to your Stash server.</p>
+
+<p><img src="http://farm9.staticflickr.com/8365/8528530651_801fc3214d_o.png" alt="Configuration"></p>
+
+<h1>How it works</h1>
+
+<p>This is a TeamCity Build Feature built using the <a href="http://confluence.jetbrains.com/display/TCD7/Developing+TeamCity+Plugins">TeamCity Open API</a>.</p>
+
+<p>It listens for build statuses and posts them to the <a href="https://developer.atlassian.com/static/rest/stash/latest/stash-build-integration-rest.html">Atlassian Stash Build API</a>.</p>
+
+<h1>License</h1>
+
+<p>GPL v2</p>
+
+<hr><h1>Code setup</h1>
+
+<p>You will need <a href="http://www.jetbrains.com/idea/download/">IntelliJ IDEA</a> as this project uses IDEA features to build artifacts.</p>
+
+<p>You will also need to download and extract <a href="http://www.jetbrains.com/teamcity/download/">TeamCity</a> which provides the required jars.</p>
+
+<p>Open the project in Intellij IDEA, you should see a lot of unresolved references, this is normal.</p>
+
+<p>Go to <code>File | Settings | Path Variables</code> and set the <code>TeamCityDistribution</code> variable, pointing it to your TeamCity location.</p>
+
+<p>The project should now build.  The .zip is generated in <code>/out/artifacts/plugin_zip</code>.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
