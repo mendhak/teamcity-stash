@@ -23,7 +23,11 @@ import jetbrains.buildServer.serverSide.SBuildFeatureDescriptor;
 import jetbrains.buildServer.serverSide.SRunningBuild;
 import jetbrains.buildServer.serverSide.WebLinks;
 import jetbrains.buildServer.serverSide.executors.ExecutorServices;
+import jetbrains.buildServer.serverSide.userChanges.CanceledInfo;
+import jetbrains.buildServer.users.SUser;
+import jetbrains.buildServer.users.UserModel;
 import jetbrains.buildServer.util.ExceptionUtil;
+import jetbrains.buildServer.util.StringUtil;
 import mendhak.teamcity.stash.api.StashClient;
 import mendhak.teamcity.stash.ui.StashBuildFeature;
 import mendhak.teamcity.stash.ui.StashServerKeyNames;
@@ -41,14 +45,17 @@ public class ChangeStatusUpdater
 
     private final WebLinks myWeb;
     private final BuildsManager buildsManager;
+    private final UserModel users;
 
     public ChangeStatusUpdater(@NotNull final ExecutorServices services,
                                @NotNull final WebLinks web,
+                               @NotNull final UserModel userModel,
                                BuildsManager manager)
     {
         myWeb = web;
         myExecutor = services.getLowPriorityExecutorService();
         buildsManager = manager;
+        this.users = userModel;
     }
 
 
@@ -74,7 +81,33 @@ public class ChangeStatusUpdater
                 buildsManager.findBuildInstanceById(build.getBuildId()) != null
                 && buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor() != null)
         {
-            buildStatus = buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor().getText();
+
+            if(build.isInterrupted())
+            {
+                buildStatus = "Build canceled";
+                CanceledInfo canceledInfo = build.getCanceledInfo();
+                if(canceledInfo != null && canceledInfo.getUserId() != null)
+                {
+                    SUser user = users.findUserById(canceledInfo.getUserId());
+                    if(user != null && !StringUtil.isEmptyOrSpaces(user.getExtendedName()))
+                    {
+                        buildStatus = buildStatus + " by " + user.getExtendedName();
+                    }
+
+                    if(!StringUtil.isEmptyOrSpaces(canceledInfo.getComment()))
+                    {
+                        buildStatus = buildStatus + "(" + canceledInfo.getComment() + ")";
+                    }
+
+
+                }
+            }
+            else
+            {
+                buildStatus = buildsManager.findBuildInstanceById(build.getBuildId()).getStatusDescriptor().getText();
+            }
+
+
 
         }
 
@@ -87,7 +120,7 @@ public class ChangeStatusUpdater
     {
         void scheduleChangeStarted(@NotNull final String hash, @NotNull final SRunningBuild build);
 
-        void scheduleChangeCompeted(@NotNull final String hash, @NotNull final SRunningBuild build);
+        void scheduleChangeCompleted(@NotNull final String hash, @NotNull final SRunningBuild build);
     }
 
     @NotNull
@@ -109,7 +142,7 @@ public class ChangeStatusUpdater
                 scheduleChangeUpdate(hash, build, StashClient.BuildState.IN_PROGRESS);
             }
 
-            public void scheduleChangeCompeted(@NotNull String hash, @NotNull SRunningBuild build)
+            public void scheduleChangeCompleted(@NotNull String hash, @NotNull SRunningBuild build)
             {
                 StashClient.BuildState status = build.getStatusDescriptor().isSuccessful() ?
                         StashClient.BuildState.SUCCESSFUL : StashClient.BuildState.FAILED;
