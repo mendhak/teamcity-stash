@@ -55,6 +55,15 @@ public class BuildStatusListener
             {
                 updateBuildStatus(build, false);
             }
+
+            @Override
+            public void buildInterrupted(SRunningBuild build)
+            {
+                updateBuildStatus(build, false);
+            }
+
+
+
         });
     }
 
@@ -92,7 +101,7 @@ public class BuildStatusListener
                 }
                 else
                 {
-                    h.scheduleChangeCompeted(change, build);
+                    h.scheduleChangeCompleted(change, build);
                 }
             }
         }
