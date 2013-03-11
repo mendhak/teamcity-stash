@@ -90,7 +90,7 @@ public class BuildStatusListener
 
             if (changes.isEmpty())
             {
-                Logger.LogInfo("No revisions were found to update Stash with. Build #:" + String.valueOf(build.getBuildNumber()));
+                Logger.LogInfo("No revisions were found to update Stash with. Build Id:" + String.valueOf(build.getBuildId()));
             }
 
             for (String change : changes)
