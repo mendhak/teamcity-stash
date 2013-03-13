@@ -166,7 +166,7 @@ public class ChangeStatusUpdater
                                 feature.getParameters().get(keyNames.getUserNameKey()),
                                 feature.getParameters().get(keyNames.getPasswordKey()));
 
-                        client.SendBuildStatus(status, String.valueOf(build.getBuildId()),
+                        client.SendBuildStatus(status, build.getBuildTypeId(),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
                                 getBuildDisplayDescription(build), hash);
 
