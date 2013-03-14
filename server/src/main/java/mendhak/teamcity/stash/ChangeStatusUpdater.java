@@ -166,7 +166,10 @@ public class ChangeStatusUpdater
                                 feature.getParameters().get(keyNames.getUserNameKey()),
                                 feature.getParameters().get(keyNames.getPasswordKey()));
 
-                        client.SendBuildStatus(status, String.valueOf(build.getBuildId()),
+                        boolean onlyShowLatestBuild =
+                                Boolean.valueOf(feature.getParameters().get(keyNames.getOnlyLatestKey()));
+                        client.SendBuildStatus(status,
+                                onlyShowLatestBuild ? build.getBuildTypeId() : String.valueOf(build.getBuildId()),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
                                 getBuildDisplayDescription(build), hash);
 

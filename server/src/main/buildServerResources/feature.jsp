@@ -52,6 +52,14 @@
 </l:settingsGroup>
 <l:settingsGroup title="Other">
 <tr>
+  <th>Only Latest:</th>
+  <td>
+    <props:checkboxProperty name="${keys.onlyLatestKey}" />
+    <span class="error" id="error_${keys.onlyLatestKey}"></span>
+    <span class="smallNote">Only show latest build status for each commit.</span>
+  </td>
+</tr>
+<tr>
   <th>Ignore VCS Roots:</th>
   <td>
     <props:textProperty name="${keys.VCSIgnoreKey}" className="longField"/>
