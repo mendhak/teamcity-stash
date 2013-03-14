@@ -83,7 +83,6 @@ public class BuildStatusListener
             }
 
 
-
             final ChangeStatusUpdater.Handler h = updater.getUpdateHandler(feature);
 
             List<String> changes = getLatestChanges(build, feature);
