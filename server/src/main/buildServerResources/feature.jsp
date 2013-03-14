@@ -56,7 +56,7 @@
   <td>
     <props:checkboxProperty name="${keys.failCancelledBuilds}" />
     <label for="${keys.failCancelledBuilds}">Mark cancelled builds as failed</label>
-    <span class="smallNote">Stash has no canceled status, they will go as a pass or failed build</span>
+    <span class="smallNote">Stash has no canceled status, choose to send it as pass or failed</span>
   </td>
 </tr>
 <tr>
@@ -64,7 +64,7 @@
   <td>
     <props:checkboxProperty name="${keys.onlyLatestKey}" />
     <label for="${keys.onlyLatestKey}">Only show latest build status for each commit</label>
-    <span class="smallNote">If checked, only the latest build status of this commit appears in Stash</span>
+    <span class="smallNote">If checked, only the latest build status of each commit appears in Stash</span>
   </td>
 </tr>
 <tr>
