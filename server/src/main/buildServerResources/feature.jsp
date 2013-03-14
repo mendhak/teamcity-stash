@@ -52,6 +52,14 @@
 </l:settingsGroup>
 <l:settingsGroup title="Other">
 <tr>
+  <th>Canceled Builds:</th>
+  <td>
+    <props:checkboxProperty name="${keys.failCancelledBuilds}" />
+    <label for="${keys.failCancelledBuilds}">Mark cancelled builds as failed</label>
+    <span class="smallNote">Stash has no canceled status, they will go as a pass or failed build</span>
+  </td>
+</tr>
+<tr>
   <th>Ignore VCS Roots:</th>
   <td>
     <props:textProperty name="${keys.VCSIgnoreKey}" className="longField"/>
