@@ -60,11 +60,11 @@
   </td>
 </tr>
 <tr>
-  <th>Only Latest:</th>
+  <th>Stash history:</th>
   <td>
     <props:checkboxProperty name="${keys.onlyLatestKey}" />
-    <span class="error" id="error_${keys.onlyLatestKey}"></span>
-    <span class="smallNote">Only show latest build status for each commit.</span>
+    <label for="${keys.onlyLatestKey}">Only show latest build status for each commit</label>
+    <span class="smallNote">If checked, only the latest build status of this commit appears in Stash</span>
   </td>
 </tr>
 <tr>
