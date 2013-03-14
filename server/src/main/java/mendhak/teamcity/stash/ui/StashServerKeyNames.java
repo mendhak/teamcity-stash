@@ -42,4 +42,9 @@ public class StashServerKeyNames
         return "stash_vcsignorecsv";
     }
 
+    public String getfailCancelledBuilds()
+    {
+        return "stash_failCancelledBuilds";
+    }
+
 }
