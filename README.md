@@ -26,7 +26,7 @@ Under your build steps, click on `Add Build Feature`. It will appear in the drop
 
 Simply enter your Stash server details and credentials to connect with. The plugin will now send build status updates to your Stash server.
 
-![Configuration](http://farm9.staticflickr.com/8365/8528530651_801fc3214d_o.png)
+![Configuration](http://farm9.staticflickr.com/8090/8558753742_aa0655c92e_o.png)
 
 
 How it works
