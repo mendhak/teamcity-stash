@@ -147,11 +147,11 @@ public class ChangeStatusUpdater
                 StashClient.BuildState status = build.getStatusDescriptor().isSuccessful() ?
                         StashClient.BuildState.SUCCESSFUL : StashClient.BuildState.FAILED;
 
-                String failCancelledBuilds = feature.getParameters().get(keyNames.getfailCancelledBuilds());
+                boolean failCancelledBuilds = Boolean.valueOf(feature.getParameters().get(keyNames.getfailCancelledBuilds()));
 
 
                 //Makes up for lack of canceled state in Stash.
-                if(build.isInterrupted() && failCancelledBuilds == null)
+                if(build.isInterrupted() && !failCancelledBuilds)
                 {
                     status = StashClient.BuildState.SUCCESSFUL;
                 }
