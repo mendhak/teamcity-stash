@@ -118,7 +118,13 @@ public class BuildStatusListener
                 continue;
             }
 
-            revisions.add(revision.getRevision());
+            String revisionHash = revision.getRevision();
+            if(revisionHash.contains("@"))
+            {
+                revisionHash = revisionHash.substring(0,revisionHash.indexOf("@"));
+            }
+
+            revisions.add(revisionHash);
         }
 
         return revisions;
