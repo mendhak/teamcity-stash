@@ -28,6 +28,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.Scanner;
 
 public class StashClient
 {
@@ -99,7 +100,8 @@ public class StashClient
 
         String stashUrl = GetBuildStatusUrl(stashBaseUrl, revision);
         String basicAuthHeader = GetAuthorizationHeaderValue(stashUsername, stashPassword);
-        String jsonBody = GetJsonBody(GetBuildState(state), key, displayName, url, description);
+        String shortDisplayName = new Scanner(displayName).nextLine();
+        String jsonBody = GetJsonBody(GetBuildState(state), key, shortDisplayName, url, description);
 
         //TODO: Validate the stashUrl, jsonBody, basicAuthHeader before sending.
         PostBuildStatusToStash(stashUrl, jsonBody, basicAuthHeader);
