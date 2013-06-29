@@ -4,14 +4,13 @@
       <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" />
       <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/plugins" />
       <root url="file://$PROJECT_DIR$/lib" />
-      <root url="file://$TeamCityDistribution$/buildAgent/tools/idea/lib" />
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" />
+      <root url="file://$TeamCityDistribution$/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$TeamCityDistribution$/buildAgent/tools/idea/lib" />
-    </SOURCES>
-    <jarDirectory url="file://$TeamCityDistribution$/buildAgent/tools/idea/lib" recursive="false" />
+    <SOURCES />
+    <jarDirectory url="file://$TeamCityDistribution$/lib" recursive="false" />
     <jarDirectory url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" recursive="false" />
-    <jarDirectory url="file://$TeamCityDistribution$/buildAgent/tools/idea/lib" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" recursive="false" />
   </library>
 </component>
