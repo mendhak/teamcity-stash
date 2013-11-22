@@ -56,10 +56,12 @@ Open the project in Intellij IDEA, you should see a lot of unresolved references
 
 Go to `File | Settings | Path Variables` and set the `TeamCityDistribution` variable, pointing it to your TeamCity location.
 
-To **build** the project, click `Build` > `Build Artifacts...` and choose `plugin-zip`.  The .zip is generated in `/out/artifacts/plugin_zip`.
+To **build** the project, click `Build | Build Artifacts...` and choose `plugin-zip`.  The .zip is generated in `/out/artifacts/plugin_zip`.
 
 
 Troubleshooting
 ====
-If the plugin doesn't seem to be working, you can find plugin messages in the `catalina.out` file under your TeamCity installation.
+If the plugin doesn't seem to be working, you can find plugin messages in the `catalina.out` file under your TeamCity installation. (Example: `/TeamCity/logs/catalina.out`)
 This usually gives you a good idea of why a call may have failed.
+
+You can also look at Stash's `atlassian-stash.log` under STASH_HOME's log folder (Example: `/Stash-Home/log/atlassian-stash.log`) file to see what it did with the HTTP request sent by the plugin.  In the log file, search for `POST /rest/build-status` as a starting point.
