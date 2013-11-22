@@ -54,6 +54,9 @@ public class StashClient
 
     public String GetJsonBody(String buildState, String key, String name, String url, String description)
     {
+        description = description.replace("\\", "\\\\");
+        description = description.replace("\"", "\\\"");
+
         return String.format("{\n" +
                 "    \"state\": \"%s\",\n" +
                 "    \"key\": \"%s\",\n" +

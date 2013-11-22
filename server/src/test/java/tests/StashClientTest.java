@@ -113,6 +113,39 @@ public class StashClientTest extends TestCase
         assertEquals(expected, jsonBody);
     }
 
+    public void testJsonBodyEscapesBackslash()
+    {
+        StashClient client = new StashClient();
+        String jsonBody = client.GetJsonBody("SUCCESSFUL", "REPO-MASTER", "REPO-MASTER-42",
+                "http://example.com/browse/REPO-MASTER-42", "Look at this \\ backaslash!");
 
+        String expected = "{\n" +
+                "    \"state\": \"SUCCESSFUL\",\n" +
+                "    \"key\": \"REPO-MASTER\",\n" +
+                "    \"name\": \"REPO-MASTER-42\",\n" +
+                "    \"url\": \"http://example.com/browse/REPO-MASTER-42\",\n" +
+                "    \"description\": \"Look at this \\\\ backaslash!\"\n" +
+                "}";
+
+        assertEquals(expected, jsonBody);
+    }
+
+    public void testJsonBodyEscapesDoubleQuote()
+    {
+        StashClient client = new StashClient();
+        String jsonBody = client.GetJsonBody("SUCCESSFUL", "REPO-MASTER", "REPO-MASTER-42",
+                "http://example.com/browse/REPO-MASTER-42", "Look at this \" doublequote!");
+
+        String expected = "{\n" +
+                "    \"state\": \"SUCCESSFUL\",\n" +
+                "    \"key\": \"REPO-MASTER\",\n" +
+                "    \"name\": \"REPO-MASTER-42\",\n" +
+                "    \"url\": \"http://example.com/browse/REPO-MASTER-42\",\n" +
+                "    \"description\": \"Look at this \\\" doublequote!\"\n" +
+                "}";
+
+        System.out.println(jsonBody);
+        assertEquals(expected, jsonBody);
+    }
 
 }
