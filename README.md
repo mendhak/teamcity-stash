@@ -56,4 +56,10 @@ Open the project in Intellij IDEA, you should see a lot of unresolved references
 
 Go to `File | Settings | Path Variables` and set the `TeamCityDistribution` variable, pointing it to your TeamCity location.
 
-The project should now build.  The .zip is generated in `/out/artifacts/plugin_zip`.
+To **build** the project, click `Build` > `Build Artifacts...` and choose `plugin-zip`.  The .zip is generated in `/out/artifacts/plugin_zip`.
+
+
+Troubleshooting
+====
+If the plugin doesn't seem to be working, you can find plugin messages in the `catalina.out` file under your TeamCity installation.
+This usually gives you a good idea of why a call may have failed.
