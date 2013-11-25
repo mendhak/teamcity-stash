@@ -113,6 +113,62 @@ public class StashClientTest extends TestCase
         assertEquals(expected, jsonBody);
     }
 
+    public void testJsonBodyEscapesBackslash()
+    {
+        StashClient client = new StashClient();
+        String jsonBody = client.GetJsonBody("SUCCESSFUL", "REPO-MASTER", "Look at this \\ backaslash!",
+                "http://example.com/browse/REPO-MASTER-42", "Look at this \\ backaslash!");
 
+        String expected = "{\n" +
+                "    \"state\": \"SUCCESSFUL\",\n" +
+                "    \"key\": \"REPO-MASTER\",\n" +
+                "    \"name\": \"Look at this \\\\ backaslash!\",\n" +
+                "    \"url\": \"http://example.com/browse/REPO-MASTER-42\",\n" +
+                "    \"description\": \"Look at this \\\\ backaslash!\"\n" +
+                "}";
+
+        assertEquals(expected, jsonBody);
+    }
+
+    public void testJsonBodyEscapesDoubleQuote()
+    {
+        StashClient client = new StashClient();
+        String jsonBody = client.GetJsonBody("SUCCESSFUL", "REPO-MASTER", "Look at this \" doublequote!",
+                "http://example.com/browse/REPO-MASTER-42", "Look at this \" doublequote!");
+
+        String expected = "{\n" +
+                "    \"state\": \"SUCCESSFUL\",\n" +
+                "    \"key\": \"REPO-MASTER\",\n" +
+                "    \"name\": \"Look at this \\\" doublequote!\",\n" +
+                "    \"url\": \"http://example.com/browse/REPO-MASTER-42\",\n" +
+                "    \"description\": \"Look at this \\\" doublequote!\"\n" +
+                "}";
+
+        System.out.println(jsonBody);
+        assertEquals(expected, jsonBody);
+    }
+
+    public void testJsonBodyNameTruncatedAt255Characters()
+    {
+        StashClient client = new StashClient();
+        String jsonBody = client.GetJsonBody("SUCCESSFUL", "REPO-MASTER",
+                "The name field in a Stash API body should be no longer than 255 characters, for if it exceeds this limit, " +
+                        "Stash will become rather unhappy and inform us of its feelings on the matter.  We must endeavor " +
+                        "not to upset Stash, as we depend on it for many things.  That is all.  Goodbye.",
+                "http://example.com/browse/REPO-MASTER-42", "Look at this \" doublequote!");
+
+        String expected = "{\n" +
+                "    \"state\": \"SUCCESSFUL\",\n" +
+                "    \"key\": \"REPO-MASTER\",\n" +
+                "    \"name\": \"The name field in a Stash API body should be no longer than 255 characters, for if it " +
+                "exceeds this limit, Stash will become rather unhappy and inform us of its feelings on the matter.  We " +
+                "must endeavor not to upset Stash, as we depend on it for many thing\",\n" +
+                "    \"url\": \"http://example.com/browse/REPO-MASTER-42\",\n" +
+                "    \"description\": \"Look at this \\\" doublequote!\"\n" +
+                "}";
+
+        System.out.println(jsonBody);
+        assertEquals(expected, jsonBody);
+    }
 
 }
