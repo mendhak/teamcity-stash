@@ -142,7 +142,7 @@ public class StashClient
             connection.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            wr.writeBytes(body);
+            wr.write(body.getBytes("UTF-8"));
             wr.flush();
             wr.close();
 
