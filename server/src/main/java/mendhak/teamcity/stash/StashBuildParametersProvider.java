@@ -44,6 +44,7 @@ public class StashBuildParametersProvider extends AbstractBuildParametersProvide
                     ValueResolver resolver = build.getValueResolver();
 
                     parameters.put(keyNames.getServerKey(), resolver.resolve(feature.getParameters().get(keyNames.getServerKey())).getResult());
+                    parameters.put(keyNames.getPasswordKey(), resolver.resolve(feature.getParameters().get(keyNames.getPasswordKey())).getResult());
                     parameters.put(keyNames.getUserNameKey(), resolver.resolve(feature.getParameters().get(keyNames.getUserNameKey())).getResult());
                 }
             }

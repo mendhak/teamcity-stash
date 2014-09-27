@@ -174,7 +174,7 @@ public class ChangeStatusUpdater
 
                         StashClient client = new StashClient(build.getParametersProvider().get(keyNames.getServerKey()),
                                 build.getParametersProvider().get(keyNames.getUserNameKey()),
-                                feature.getParameters().get(keyNames.getPasswordKey()));
+                                build.getParametersProvider().get(keyNames.getPasswordKey()));
 
                         boolean onlyShowLatestBuild =
                                 Boolean.valueOf(feature.getParameters().get(keyNames.getOnlyLatestKey()));
