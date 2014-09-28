@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 
@@ -149,7 +150,6 @@ public class ChangeStatusUpdater
 
                 boolean failCancelledBuilds = Boolean.valueOf(feature.getParameters().get(keyNames.getfailCancelledBuilds()));
 
-
                 //Makes up for lack of canceled state in Stash.
                 if(build.isInterrupted() && !failCancelledBuilds)
                 {
@@ -172,12 +172,15 @@ public class ChangeStatusUpdater
                     public void run()
                     {
 
-                        StashClient client = new StashClient(build.getParametersProvider().get(keyNames.getServerKey()),
-                                build.getParametersProvider().get(keyNames.getUserNameKey()),
-                                build.getParametersProvider().get(keyNames.getPasswordKey()));
+                        Map<String, String> parameters = feature.getParameters();
+
+                        StashClient client = new StashClient(
+                                parameters.get(keyNames.getServerKey()),
+                                parameters.get(keyNames.getUserNameKey()),
+                                parameters.get(keyNames.getPasswordKey()));
 
                         boolean onlyShowLatestBuild =
-                                Boolean.valueOf(feature.getParameters().get(keyNames.getOnlyLatestKey()));
+                                Boolean.valueOf(parameters.get(keyNames.getOnlyLatestKey()));
                         client.SendBuildStatus(status,
                                 onlyShowLatestBuild ? build.getBuildTypeId() : String.valueOf(build.getBuildId()),
                                 getBuildDisplayName(build), myWeb.getViewResultsUrl(build),
