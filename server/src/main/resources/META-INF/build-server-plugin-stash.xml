@@ -15,6 +15,4 @@
 
   <bean class="mendhak.teamcity.stash.api.StashClient"/>
 
-  <bean class="mendhak.teamcity.stash.StashBuildParametersProvider"/>
-
 </beans>

@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class BuildStatusListener
@@ -75,13 +76,12 @@ public class BuildStatusListener
             return;
         }
 
-        for (SBuildFeatureDescriptor feature : buildType.getBuildFeatures())
+        for (SBuildFeatureDescriptor feature : buildType.getResolvedSettings().getBuildFeatures())
         {
             if (!feature.getType().equals(StashBuildFeature.FEATURE_TYPE))
             {
                 continue;
             }
-
 
             final ChangeStatusUpdater.Handler h = updater.getUpdateHandler(feature);
 
