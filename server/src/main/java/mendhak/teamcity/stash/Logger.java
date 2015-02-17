@@ -21,16 +21,19 @@
 
 package mendhak.teamcity.stash;
 
+import jetbrains.buildServer.log.Loggers;
+
 public class Logger
 {
 
     public static void LogError(String message, Exception ex)
     {
-        System.err.println(message + "\r\n" +  ex.getMessage() + "\r\n" + ex.getStackTrace());
+        Loggers.SERVER.error("TEAMCITY-STASH:" + message, ex);
     }
 
     public static void LogInfo(String message)
     {
-        System.out.println(message);
+        Loggers.SERVER.info("TEAMCITY-STASH:" + message);
+
     }
 }

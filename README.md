@@ -61,7 +61,7 @@ To **build** the project, click `Build | Build Artifacts...` and choose `plugin-
 
 Troubleshooting
 ====
-If the plugin doesn't seem to be working, you can find plugin messages in the `catalina.out` file under your TeamCity installation. (Example: `/TeamCity/logs/catalina.out`)
+If the plugin doesn't seem to be working, you can find plugin messages in the `teamcity-server.log` file under your TeamCity installation. (Example: `/TeamCity/logs/teamcity-server.log`)
 This usually gives you a good idea of why a call may have failed.
 
 You can also look at Stash's `atlassian-stash.log` under STASH_HOME's log folder (Example: `/Stash-Home/log/atlassian-stash.log`) file to see what it did with the HTTP request sent by the plugin.  In the log file, search for `POST /rest/build-status` as a starting point.
