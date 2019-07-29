@@ -34,7 +34,7 @@ public class StashServerKeyNames
 
     public String getPasswordKey()
     {
-        return Constants.SECURE_PROPERTY_PREFIX + "stash_username";
+        return Constants.SECURE_PROPERTY_PREFIX + "stash_password";
     }
 
     public String getOnlyLatestKey()
