@@ -1,10 +1,14 @@
+This repo is no longer maintained, please fork it if you wish to continue developing or fixing features. From what I can tell, Bitbucket Server has been pretty much abandoned, so this plugin _should_ continue working until it is End Of Life.
+
+---
+
 ![Logo](http://farm9.staticflickr.com/8105/8529837904_79cafece82_c.jpg)
 
-TeamCity Stash Integration
+TeamCity Stash (Bitbucket Server) Integration
 ===============
-If you use TeamCity and Stash, then this plugin is for you.
+If you use TeamCity and Bitbucket Server, then this plugin is for you.
 
-This build feature sends build status updates from TeamCity to Stash.  You can then see build statuses against commits.
+This build feature sends build status updates from TeamCity to Bitbucket Server.  You can then see build statuses against commits.
 
  ![Stash screenshot](http://farm9.staticflickr.com/8096/8529642406_29e3e9a899_o.png)
 
